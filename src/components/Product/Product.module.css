@@ -55,10 +55,10 @@ position: relative;
 }
 .product_container{
     display: grid;
-    grid-template-columns: repeat(auto-fill,minmax(160px, 1fr));
+    grid-template-columns: repeat(auto-fill,minmax(200px, 1fr));
     max-width: 1200px;
     margin: 100px auto 100px auto;
-    gap: 16px;
+    gap: 20px;
     justify-items: center;
 }
 .product_container section {

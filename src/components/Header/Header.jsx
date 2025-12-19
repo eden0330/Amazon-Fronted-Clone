@@ -7,10 +7,11 @@ import styles from "./Header.module.css";
 import Lowerheader from "./Lowerheader";
 import {Link} from 'react-router-dom'
 import {DataContext} from '../DataProvider/DataProvider'
+import {auth} from "../../Utility/Firebase"
 
 const Header = () => {
 
-  const [{basket},dispatch] = useContext(DataContext);
+  const [{user, basket},dispatch] = useContext(DataContext);
   const totalItem = basket?.reduce((amount,item)=> 
   {return item.amount + amount},0)
   console.log(basket.length);
@@ -63,28 +64,40 @@ const Header = () => {
               </div>
             </Link>
 
-            <Link to="">
+            <Link to={!user && "/auth"}>
               <div className={styles.list}>
-                <p>Sign In</p>
-                <select name="" id="">
-                  <option value="">Account & Lists</option>
-                </select>
+                
+                  {user ? (
+                    <>
+                      <p>Hello {user?.email?.split("@")[0]} </p>
+                      <span onClick={()=>auth.signOut()}>Sign Out</span>{" "}
+                    </>
+                  ) : (
+                    <>
+                      <p>Helo, Sign In</p>
+                      <select name="" id="">
+                        <option value="">Account & Lists</option>
+                      </select>
+                    </>
+                  )}
+                
               </div>
             </Link>
 
             {/* return&order */}
-            <Link to="">
+            <Link to="/orders">
               <div className={styles.list}>
                 <p>Returns</p>
                 <span>& Orders</span>
               </div>
             </Link>
             {/* cartaway */}
-            <Link to="/orders" className={styles.cart_container}></Link>
-            <Link to="/cart" className={styles.cart}>
-              <BiCart size={35} />
-              <span>{totalItem}</span>
-              <p>Cart</p>
+            <Link to="/cart" className={styles.cart_container}>
+              <Link to="/cart" className={styles.cart}>
+                <BiCart size={35} />
+                <span>{totalItem}</span>
+                <p>Cart</p>
+              </Link>
             </Link>
           </div>
         </div>
