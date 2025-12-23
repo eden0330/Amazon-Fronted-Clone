@@ -1,7 +1,7 @@
 import React, { useState, useContext } from "react";
 import styles from "./Auth.module.css";
-import Layout from "../../components/Layout/Layout";
-import { Link, useNavigate } from "react-router-dom";
+
+import { Link, useNavigate, useLocation } from "react-router-dom";
 import { Type } from "../../Utility/action.type";
 import { auth } from "../../Utility/Firebase";
 import {
@@ -10,6 +10,8 @@ import {
 } from "firebase/auth";
 import { DataContext } from "../../components/DataProvider/DataProvider";
 import { ClipLoader } from "react-spinners";
+
+
 const Auth = () => {
   const [email, setEmail] = useState("");
 
@@ -18,8 +20,21 @@ const Auth = () => {
   const [error, setError] = useState("");
   const [loading, setLoading] = useState({ signIn: false, signUp: false });
   const [{ user }, dispatch] = useContext(DataContext);
+
+
   const navigate = useNavigate();
+  const navStateData = useLocation();
+
+  // console.log(navStateData);
   //console.log(user);
+console.log("navStateData", JSON.stringify(navStateData, null, 2));
+
+const redirectTo =
+  navStateData.state?.redirect && navStateData.state.redirect.startsWith("/")
+    ? navStateData.state.redirect
+    : "/";
+
+
 
   // console.log(password,email);
   const authHandler = async (e) => {
@@ -36,11 +51,11 @@ const Auth = () => {
             user: userInfo.user,
           });
           setLoading({ ...loading, signIn: false });
-          navigate("/");
+          navigate(redirectTo, { replace: true });
         })
         .catch((err) => {
           setError(err.message);
-          etLoading({ ...loading, signIn: false });
+          setLoading({ ...loading, signIn: false });
         });
     } else {
       setLoading({ ...loading, signUp: true });
@@ -52,7 +67,7 @@ const Auth = () => {
             user: userInfo.user,
           });
           setLoading({ ...loading, signUp: false });
-          navigate("/");
+          navigate(redirectTo, { replace: true });
         })
         .catch((err) => {
           setError(err.message);
@@ -118,7 +133,7 @@ const Auth = () => {
           {/* creat acc btn */}
           <button
             name="signup"
-            type="submit"
+            type="button"
             onClick={authHandler}
             className={styles.login_btn}
           >

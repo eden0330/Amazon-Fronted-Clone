@@ -5,11 +5,12 @@ margin-left: 15px;
 .cate p{
     font-size: 12px;
     font-weight: bold;
-    color: cornflowerblue;
+    color: cornflowerblue;   
 }
 .cate{
-height: 350px;
-width: 350px;
+height: 300px;
+width: 300px;
+gap: 10px;
 background-color: aliceblue;
 box-shadow: 0px 0px 10px rgba(0,0,0,0.2);
 display: flex;
@@ -19,8 +20,10 @@ flex-flow: row wrap;
 .cate img{
     width: 100%;
     object-fit: contain;
-    max-height: 250px;
+    max-height: 150px;
     padding: 0px 10px;
+
+    
 }
 .cate a{
     text-decoration: none;
@@ -28,8 +31,12 @@ flex-flow: row wrap;
 }
 .container{
     position: relative;
-    margin-top: -350px;
+    margin-top: -10%;
     display: grid;
-    grid-template-columns: repeat(4,4fr);
+    grid-template-columns: repeat(auto-fit,minmax(150px, 1fr));
+    max-width: 1600px;
+    gap:50px;
+    margin-right: auto !important;
+    margin-left: auto !important;
     place-items: center;
 }

@@ -5,16 +5,25 @@ import { BiCart } from "react-icons/bi";
 import { IoSearch } from "react-icons/io5";
 import styles from "./Header.module.css";
 import Lowerheader from "./Lowerheader";
-import {Link} from 'react-router-dom'
-import {DataContext} from '../DataProvider/DataProvider'
-import {auth} from "../../Utility/Firebase"
+import { Link } from "react-router-dom";
+import { DataContext } from "../DataProvider/DataProvider";
+import { auth } from "../../Utility/Firebase";
+
 
 const Header = () => {
+  const [{ user, basket }, dispatch] = useContext(DataContext);
 
-  const [{user, basket},dispatch] = useContext(DataContext);
-  const totalItem = basket?.reduce((amount,item)=> 
-  {return item.amount + amount},0)
-  console.log(basket.length);
+  const totalItem = basket?.reduce((amount, item) => {
+    return (item.amount ?? 1) + amount;
+  }, 0);
+
+  // keep your Header split safe like this
+  const email = typeof user?.email === "string" ? user.email : "";
+  const username = email.includes("@") ? email.split("@")[0] : "";
+
+  <p>Hello {username}</p>;
+
+  // console.log(basket.length);
   return (
     <section className={styles.fix}>
       <section className={styles.header_outer_container}>
@@ -52,7 +61,7 @@ const Header = () => {
 
           {/* right side link... */}
           <div className={styles.order_container}>
-            <Link to="" className={styles.lang}>
+            <Link to="/" className={styles.lang}>
               <div>
                 <img
                   src="https://image.shutterstock.com/image-vector/vector-illustration-flag-united-states-260nw-2640469025.jpg"
@@ -63,24 +72,22 @@ const Header = () => {
                 </select>
               </div>
             </Link>
-
-            <Link to={!user && "/auth"}>
+            {/* {user?.email?.split("@")[0]} */}
+            <Link to={user ? "/" : "/auth"}>
               <div className={styles.list}>
-                
-                  {user ? (
-                    <>
-                      <p>Hello {user?.email?.split("@")[0]} </p>
-                      <span onClick={()=>auth.signOut()}>Sign Out</span>{" "}
-                    </>
-                  ) : (
-                    <>
-                      <p>Helo, Sign In</p>
-                      <select name="" id="">
-                        <option value="">Account & Lists</option>
-                      </select>
-                    </>
-                  )}
-                
+                {user ? (
+                  <>
+                    <p>Hello {username}</p>
+                    <span onClick={() => auth.signOut()}>Sign Out</span>{" "}
+                  </>
+                ) : (
+                  <>
+                    <p>Helo, Sign In</p>
+                    <select name="" id="">
+                      <option value="">Account & Lists</option>
+                    </select>
+                  </>
+                )}
               </div>
             </Link>
 
@@ -92,12 +99,11 @@ const Header = () => {
               </div>
             </Link>
             {/* cartaway */}
-            <Link to="/cart" className={styles.cart_container}>
-              <Link to="/cart" className={styles.cart}>
-                <BiCart size={35} />
-                <span>{totalItem}</span>
-                <p>Cart</p>
-              </Link>
+            {/* <Link to="/cart" className={styles.cart_container}></Link> */}
+            <Link to="/cart" className={styles.cart}>
+              <BiCart size={35} />
+              <span>{totalItem}</span>
+              <p>Cart</p>
             </Link>
           </div>
         </div>
