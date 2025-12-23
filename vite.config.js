@@ -5,9 +5,7 @@ import react from '@vitejs/plugin-react'
 export default defineConfig({
   plugins: [react()],
 
-  base: "/Amazon-Fronted-Clone/",
+   base: "/Amazon-Fronted-Clone/",
 
-  build: {
-    sourcemap: true,
-  },
+ 
 });
