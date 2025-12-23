@@ -10,18 +10,6 @@ const Orders = () => {
   const [{ user }, dispatch] = useContext(DataContext);
   const [orders, setOrders] = useState([]);
 
-  // useEffect(() => {
-  //   if (user) {
-  //     db.collection("users")
-  //       .doc(user.uid)
-  //       .collection("orders")
-  //       .orderBy("created", "desc")
-  //       .onSnapshot((snapshot) => {
-  //         console.log(snapshot);
-  //       });
-  //   } else {
-  //   }
-  // }, []);
 
   // ✅ FIXED CODE (matches Firebase v9 modular syntax)
   useEffect(() => {
