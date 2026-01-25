@@ -26,6 +26,9 @@ const Header = () => {
   // console.log(basket.length);
   return (
     <section className={styles.fix}>
+      <h1 style={{ color: "red" }}>
+        Student project. Not affiliated with Amazon.!!
+      </h1>
       <section className={styles.header_outer_container}>
         <div className={styles.header_container}>
           <div className={styles.logo_container}>
